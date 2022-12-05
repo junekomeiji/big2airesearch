@@ -1,0 +1,43 @@
+\documentclass[]{article}
+
+%opening
+\title{Challenging Genetic Algorithms for Artificial Intelligence with Random Multi-opponent Games }
+\author{Isa bin Mohd Faizal, Muhammad Amir Rafiq}
+
+\begin{document}
+
+\maketitle
+
+\section*{\centering{Introduction}}
+Artificial intelligence has been used in order to create models which can beat even the best human players in various video games such as chess and go. However, these have been mostly fully deterministic games where there is no element of chance involved. Games with elements of chance such as Big2 and Poker also have large elements of skill, and it has been shown that more skillful players beat less skillful ones over a large amount of games, and that luck averages out over time. We therefore suggest the creation of a model of artificial intelligence in order to play Big2, a card game popular in East Asia and compare the performance of the genetic model we are proposing to a previous model.
+
+\section*{\centering{Problem Statement}}
+
+Creating an artificial intelligence model to play games of chance comes with its own difficulties. Unlike purely deterministic games where the same set of inputs from all players will give the same set of outputs, games of chance differ in that the initial starting condition and process of the game itself involves elements of random chance, and this can prove to be a source of difficulty for the model. Given the high amount of variability between games and that the player that plays the best might not necessarily be the winner of the round, this can lead to a suboptimal model being formed after training. The problems that we would like to address are:
+
+\begin{enumerate}
+	\item The performance of a genetic model against games of chance
+	\item The computational time required until performance of the model plateaus
+	\item The evolution of the performance of the genetic model over time as it is being trained
+\end{enumerate}
+
+How well will a machine learning model based off genetic training perform in multi-opponent games of random chance?
+
+\section*{\centering{Objective}}
+
+The goal of this research is to improve on past models of artificial intelligence by using a model which incorporates elements of randomness in order to prevent a premature plateau in the increase of performance of the generated neural networks, especially as games of random chance are prone to luck deciding a game over the raw skill of a player. Particularly, the study has the following sub-objectives:
+
+\begin{enumerate}
+	\item Tracking the performance of the generated neural networks over each generation;
+	\item Using stochastic methods in order to prevent the generation of the neural networks from falling into a local maximum;
+	\item Outlining how genetic algorithms can be used to play games of chance.
+	
+\end{enumerate}
+
+The result of this study will be important to the development of genetic models of the development of artificial intelligence because it can be used as a model for tasks with a high amount of noise, variability or randomness, and can prove as an important stepping-stone to real world applications. 
+
+\section*{\centering{Methodology}}
+
+Sets of 100 neural networks are generated randomly which take in input such as game state, the cards already played as well the set of cards the it has on hand in order to produce an output in the form of a game move. Each neural networks will play against all other models, and performance of the neural network is measured by a point system based on the placement of the neural networks in each round of the game. The models will be sorted according to their performance by amount of points, and the top 50th percentile of neural networks will be allowed to slightly mutate themselves in order to reproduce by slight mutation to create two successors. Each time this process occurs is known as a generation. The mean, median, highest and lowest 10th percentile of points will be tracked over time as a means of measuring the performance of the generation as a whole. The best model every 100 generations will be placed against a past model created for playing Big2, which allows us to track the generated neural network's performance relative to past models.
+
+\end{document}
