@@ -9,11 +9,11 @@
 \maketitle
 
 \section*{\centering{Introduction}}
-Artificial intelligence has been used in order to create models which can beat even the best human players in various video games such as chess and go. However, these have been mostly fully deterministic games where there is no element of chance involved. Games with elements of chance such as Big2 and Poker also have large elements of skill, and it has been shown that more skillful players beat less skillful ones over a large amount of games, and that luck averages out over time. We therefore suggest the creation of a model of artificial intelligence in order to play Big2, a card game popular in East Asia and compare the performance of the genetic model we are proposing to a previous model.
+Artificial intelligence has been used in order to create models which can beat even the best human players in various video games such as chess and Go \cite{chessai} \cite{goai}. However, these have been mostly fully deterministic games where there is no element of chance involved. Games with elements of chance such as Big2 and Poker also have large elements of skill, and it has been shown that more skillful players beat less skillful ones over a large amount of games, and that luck averages out over time \cite{pokerluck}. We therefore suggest the creation of a model of artificial intelligence in order to play Big2, a card game popular in East Asia and compare the performance of the genetic model we are proposing to a previous model.
 
 \section*{\centering{Problem Statement}}
 
-Creating an artificial intelligence model to play games of chance comes with its own difficulties. Unlike purely deterministic games where the same set of inputs from all players will give the same set of outputs, games of chance differ in that the initial starting condition and process of the game itself involves elements of random chance, and this can prove to be a source of difficulty for the model. Given the high amount of variability between games and that the player that plays the best might not necessarily be the winner of the round, this can lead to a suboptimal model being formed after training. The problems that we would like to address are:
+Creating a machine learning model to play games of chance comes with its own difficulties. Unlike purely deterministic games where the same set of inputs from all players will give the same set of outputs, games of chance differ in that the initial starting condition and process of the game itself involves elements of random chance as well as high amounts of informational asymmetry, and this can prove to be a source of difficulty for the model. \cite{pokerai} Given the high amount of variability between games and that the player that plays the best might not necessarily be the winner of the round, this can lead to a suboptimal model being formed after training. The problems that we would like to address are:
 
 \begin{enumerate}
 	\item The performance of a genetic model against games of chance
@@ -39,5 +39,23 @@ The result of this study will be important to the development of genetic models 
 \section*{\centering{Methodology}}
 
 Sets of 100 neural networks are generated randomly which take in input such as game state, the cards already played as well the set of cards the it has on hand in order to produce an output in the form of a game move. Each neural networks will play against all other models, and performance of the neural network is measured by a point system based on the placement of the neural networks in each round of the game. The models will be sorted according to their performance by amount of points, and the top 50th percentile of neural networks will be allowed to slightly mutate themselves in order to reproduce by slight mutation to create two successors. Each time this process occurs is known as a generation. The mean, median, highest and lowest 10th percentile of points will be tracked over time as a means of measuring the performance of the generation as a whole. The best model every 100 generations will be placed against a past model created for playing Big2, which allows us to track the generated neural network's performance relative to past models.
+
+\begin{thebibliography}{9}
+
+	
+	\bibitem{chessai}
+	Silver, D. et al. A general reinforcement learning algorithm that Masters Chess, Shogi, and go through self-play. Science 362, 1140–1144 (2018). 
+	
+	\bibitem{goai}
+	Silver, D., Huang, A., Maddison, C. et al. Mastering the game of Go with deep neural networks and tree search. Nature 529, 484–489 (2016). 
+	
+	\bibitem{pokerluck}
+	Steven D. Levitt and Thomas J. Miles,
+	The Role of Skill Versus Luck in Poker Evidence From the World Series of Poker. Journal of Sports Economics 15, 31-44 (2014).
+	
+	\bibitem{pokerai}
+	Moravčík, M. et al. DeepStack: Expert-level artificial intelligence in heads-up no-limit poker. Science 356, 508–513 (2017). 
+	
+\end{thebibliography}
 
 \end{document}
