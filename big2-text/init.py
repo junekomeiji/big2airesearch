@@ -48,6 +48,7 @@ deck2.sort()
 deck3.sort()
 deck4.sort()
 
+# Print for debug.
 print(deck)
 print(deck1)
 print(deck2)
