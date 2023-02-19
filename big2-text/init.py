@@ -1,4 +1,5 @@
 import random
+import os
 
 print("Initializing game...")
 print("Creating deck...")
@@ -55,3 +56,27 @@ print(deck2)
 print(deck3)
 print(deck4)
 print(firstplayer)
+
+os.mkdir("saved_data")
+os.chdir("saved_data")
+
+gameStateSave = open("gamestate", "w")
+for card in deck:
+    gameStateSave.write(card)
+    gameStateSave.write(",")
+gameStateSave.write("\n")
+for card in deck1:
+    gameStateSave.write(card)
+    gameStateSave.write(",")
+gameStateSave.write("\n")
+for card in deck2:
+    gameStateSave.write(card)
+    gameStateSave.write(",")
+gameStateSave.write("\n")
+for card in deck3:
+    gameStateSave.write(card)
+    gameStateSave.write(",")
+gameStateSave.write("\n")
+gameStateSave.write("-1\n") # no current card
+gameStateSave.write(str(firstplayer))
+gameStateSave.close()
