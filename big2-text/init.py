@@ -56,8 +56,10 @@ print(deck2)
 print(deck3)
 print(deck4)
 print(firstplayer)
-
-os.mkdir("saved_data")
+try:
+    os.mkdir("saved_data")
+except FileExistsError:
+    print("folder already exists.")
 os.chdir("saved_data")
 
 gameStateSave = open("gamestate", "w")
@@ -77,6 +79,34 @@ for card in deck3:
     gameStateSave.write(card)
     gameStateSave.write(",")
 gameStateSave.write("\n")
+gameStateSave.write("-1\n") # no played cards
 gameStateSave.write("-1\n") # no current card
 gameStateSave.write(str(firstplayer))
 gameStateSave.close()
+
+filenames = ["player1", "player2", "player3", "player4"]
+
+for x in range(0,4):
+    print(x)
+    playerSave = open(filenames[x], "w")
+    if (not x): # for some reason x == 0 does not work, this is a workaroud. sorry.
+        for card in deck1:
+            playerSave.write(card)
+            playerSave.write(",")
+    if (x == 1):
+        for card in deck2:
+            playerSave.write(card)
+            playerSave.write(",")
+    if (x == 2):
+        for card in deck3:
+            playerSave.write(card)
+            playerSave.write(",")
+    if (x == 3):
+        for card in deck4:
+            playerSave.write(card)
+            playerSave.write(",")
+    playerSave.write("\n")
+    playerSave.write("-1\n") # no played cards
+    playerSave.write("-1\n") # no current card
+
+playerSave.close()
