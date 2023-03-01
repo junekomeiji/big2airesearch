@@ -1,5 +1,6 @@
 import random
 import os
+import globals as gl
 
 print("Initializing game...")
 print("Creating deck...")
@@ -14,6 +15,7 @@ for x in range(4):
         card = str(x + 1) + " " + str(y + 1)
         deck.append(card)
 
+print(deck)
 print("Distributing cards...")
 # Distributing cards
 # Cards are distributed like in a real game, randomly in order from the main deck.
@@ -88,7 +90,7 @@ filenames = ["player1", "player2", "player3", "player4"]
 
 for x in range(0,4):
     print(x)
-    playerSave = open(filenames[x], "w")
+    playerSave = open(gl.filenames[x], "w")
     if (not x): # for some reason x == 0 does not work, this is a workaroud. sorry.
         for card in deck1:
             playerSave.write(card)
