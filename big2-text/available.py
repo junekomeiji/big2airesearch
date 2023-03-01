@@ -74,7 +74,7 @@ playernum = 1 #testing
 filenames = ["player1", "player2", "player3", "player4"]
 os.chdir("saved_data")
 
-playerfile = open(filenames[playernum])
+playerfile = open(gl.filenames[playernum])
 thing = playerfile.readline()
 cards = thing.split(',')
 

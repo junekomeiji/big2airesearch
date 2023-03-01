@@ -86,8 +86,6 @@ gameStateSave.write("-1\n") # no current card
 gameStateSave.write(str(firstplayer))
 gameStateSave.close()
 
-filenames = ["player1", "player2", "player3", "player4"]
-
 for x in range(0,4):
     print(x)
     playerSave = open(gl.filenames[x], "w")
