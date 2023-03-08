@@ -66,7 +66,7 @@ def SameHands(beat, card, match):
                         bigger_power = True
                 if bigger_power:
                     hands.append(hand)
-        for x in range(beat+1, 13): # cards of higher power (a repeat of the -1 case)
+        for x in range((beat % 13)+1, 13): # cards of higher power (a repeat of the -1 case)
             elig = []
             for cd in cards:
                 if gl.cardpowerdict[cd] % 13 == x:
@@ -77,8 +77,7 @@ def SameHands(beat, card, match):
     return hands
 
 def Straights(beat, card): #straights
-    hands = []
-    if beat
+    pass
     
 
 playernum = 1 #testing
