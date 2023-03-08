@@ -14,20 +14,20 @@ def SingleHands(beat, card):
     """Returns a list of single card hands with a higher power.
 
     Args:
-        beat (string): The card to beat 
+        beat (int): The value of the card to beat.
         card (string[]): The cards available in hand.
 
     Returns:
         string[[]]: A nested list containing all valid single card hands.
     """
     hands = []
-    if beat == '-1':
+    if beat == -1:
         for cd in card: # adds every card as a single hand
             hand = [cd]
             hands.append(hand)
     else:
         for cd in card:
-            if cd > beat: # compares the currents card with each card in hand, adds as a single hand if larger
+            if gl.cardpowerdict[cd] > beat: # compares the currents card with each card in hand, adds as a single hand if larger
                 hand = [cd]
                 hands.append(hand)
     return hands
@@ -75,7 +75,12 @@ def SameHands(beat, card, match):
                 for hand in list(iter.combinations(elig, match)):
                     hands.append(hand)
     return hands
-        
+
+def Straights(beat, card): #straights
+    hands = []
+    if beat
+    
+
 playernum = 1 #testing
 #playernum = int(sys.argv[1]) # accepts an int representing the player to be checked (0-3)
 filenames = ["player1", "player2", "player3", "player4"]
