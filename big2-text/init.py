@@ -1,4 +1,5 @@
 import random
+import math
 import os
 import globals as gl
 
@@ -10,10 +11,46 @@ deck = []
 # 1-13 for card type (1-10, J, Q, K)
 # this way of naming might be useful (number comparisons?)
 
-for x in range(4):
-    for y in range(13):
-        card = str(x + 1) + " " + str(y + 1)
-        deck.append(card)
+class Card:
+    def __init__(self, number):
+        self.number = number
+        self.suit = number % 4
+        self.value = math.floor(number/4)
+        match self.value:
+            case 12:
+                self.ppValue = 2
+            case 11:
+                self.ppValue = 'A'
+            case 10:
+                self.ppValue = 'K'
+            case 9:
+                self.ppValue = 'Q'
+            case 8: 
+                self.ppValue = 'J'
+            case _:
+                self.ppValue = self.value + 3
+            
+        match self.suit:
+            case 3:
+                self.colour = 'spades'
+            case 2:
+                self.colour = 'hearts'
+            case 1:
+                self.colour = 'clubs'
+            case 0:
+                self.colour = 'diamonds'
+        
+    def __str__(self):
+        return str(self.colour) + " " + str(self.ppValue)
+    
+    def __repr__(self):
+        return str(self.colour) + " " + str(self.ppValue)
+    
+    def __lt__(self, other):
+        return self.number < other.number
+
+for x in range(52):
+    deck.append(Card(x))
 
 print(deck)
 print("Distributing cards...")
@@ -29,7 +66,7 @@ firstplayer = -1 # The first player is determined during distribution. Loop chec
 
 while len(deck) > 0:
     select = random.choice(deck)
-    if select == "4 3":
+    if select.ppValue == 3 and select.colour == 'diamonds':
         firstplayer = i + 1
     deck.remove(select)
     if i == 0:
@@ -66,19 +103,19 @@ os.chdir("saved_data")
 
 gameStateSave = open("gamestate", "w")
 for card in deck:
-    gameStateSave.write(card)
+    gameStateSave.write(str(card))
     gameStateSave.write(",")
 gameStateSave.write("\n")
 for card in deck1:
-    gameStateSave.write(card)
+    gameStateSave.write(str(card))
     gameStateSave.write(",")
 gameStateSave.write("\n")
 for card in deck2:
-    gameStateSave.write(card)
+    gameStateSave.write(str(card))
     gameStateSave.write(",")
 gameStateSave.write("\n")
 for card in deck3:
-    gameStateSave.write(card)
+    gameStateSave.write(str(card))
     gameStateSave.write(",")
 gameStateSave.write("\n")
 gameStateSave.write("-1\n") # no played cards
@@ -91,19 +128,19 @@ for x in range(0,4):
     playerSave = open(gl.filenames[x], "w")
     if (not x): # for some reason x == 0 does not work, this is a workaroud. sorry.
         for card in deck1:
-            playerSave.write(card)
+            playerSave.write(str(card))
             playerSave.write(",")
     if (x == 1):
         for card in deck2:
-            playerSave.write(card)
+            playerSave.write(str(card))
             playerSave.write(",")
     if (x == 2):
         for card in deck3:
-            playerSave.write(card)
+            playerSave.write(str(card))
             playerSave.write(",")
     if (x == 3):
         for card in deck4:
-            playerSave.write(card)
+            playerSave.write(str(card))
             playerSave.write(",")
     playerSave.write("\n")
     playerSave.write("-1\n") # no played cards
