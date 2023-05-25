@@ -2,12 +2,14 @@ import os
 import sys
 import globals as gl
 import itertools as iter
+from init import Card
 
-def HighestCard(hand):
+# "hand" is always a list of Card objects.
+def HighestCard(hand: list):
     power = -1
     for cd in hand:
-        if gl.cardpowerdict[cd] > power:
-            power = gl.cardpowerdict[cd]
+        if cd.number > power:
+            power = cd.number
     return power
 
 def SingleHands(beat, card):
