@@ -18,9 +18,7 @@ Return Codes:
 def verify_inventory(hand: list, inventory: list) -> int:
     # checks if player has the cards in their inventory.
     for card in hand:
-        try:
-            inventory.index(hand)
-        except ValueError:
+        if card not in hand:
             return 1
     return 0
 
