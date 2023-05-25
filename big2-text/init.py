@@ -107,19 +107,19 @@ os.chdir("saved_data")
 
 gameStateSave = open("gamestate", "w")
 for card in deck:
-    gameStateSave.write(card.number)
+    gameStateSave.write(str(card.number))
     gameStateSave.write(",")
 gameStateSave.write("\n")
 for card in deck1:
-    gameStateSave.write(card.number)
+    gameStateSave.write(str(card.number))
     gameStateSave.write(",")
 gameStateSave.write("\n")
 for card in deck2:
-    gameStateSave.write(card.number)
+    gameStateSave.write(str(card.number))
     gameStateSave.write(",")
 gameStateSave.write("\n")
 for card in deck3:
-    gameStateSave.write(card.number)
+    gameStateSave.write(str(card.number))
     gameStateSave.write(",")
 gameStateSave.write("\n")
 gameStateSave.write("-1\n") # no played cards
@@ -132,19 +132,19 @@ for x in range(0,4):
     playerSave = open(gl.filenames[x], "w")
     if (not x): # for some reason x == 0 does not work, this is a workaroud. sorry.
         for card in deck1:
-            playerSave.write(card.number)
+            playerSave.write(str(card.number))
             playerSave.write(",")
     if (x == 1):
         for card in deck2:
-            playerSave.write(card.number)
+            playerSave.write(str(card.number))
             playerSave.write(",")
     if (x == 2):
         for card in deck3:
-            playerSave.write(card.number)
+            playerSave.write(str(card.number))
             playerSave.write(",")
     if (x == 3):
         for card in deck4:
-            playerSave.write(card.number)
+            playerSave.write(str(card.number))
             playerSave.write(",")
     playerSave.write("\n")
     playerSave.write("-1\n") # no played cards
