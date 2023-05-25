@@ -7,8 +7,8 @@ print("Initializing game...")
 print("Creating deck...")
 deck = []
 # Creating the deck of cards
-# 1-4 for card suit (diamond, heart, spade, club)
-# 1-13 for card type (1-10, J, Q, K)
+# 0-3 for card suit (diamond, heart, spade, club)
+# 0-12 for card type (3-10, J, Q, K, A, 2)
 # this way of naming might be useful (number comparisons?)
 
 class Card:
@@ -48,6 +48,10 @@ class Card:
     
     def __lt__(self, other):
         return self.number < other.number
+    def __eq__(self, other):
+        return self.number == other.number
+    def __gt__(self, other):
+        return self.number > other.number
 
 for x in range(52):
     deck.append(Card(x))
@@ -103,19 +107,19 @@ os.chdir("saved_data")
 
 gameStateSave = open("gamestate", "w")
 for card in deck:
-    gameStateSave.write(str(card))
+    gameStateSave.write(card.number)
     gameStateSave.write(",")
 gameStateSave.write("\n")
 for card in deck1:
-    gameStateSave.write(str(card))
+    gameStateSave.write(card.number)
     gameStateSave.write(",")
 gameStateSave.write("\n")
 for card in deck2:
-    gameStateSave.write(str(card))
+    gameStateSave.write(card.number)
     gameStateSave.write(",")
 gameStateSave.write("\n")
 for card in deck3:
-    gameStateSave.write(str(card))
+    gameStateSave.write(card.number)
     gameStateSave.write(",")
 gameStateSave.write("\n")
 gameStateSave.write("-1\n") # no played cards
@@ -128,19 +132,19 @@ for x in range(0,4):
     playerSave = open(gl.filenames[x], "w")
     if (not x): # for some reason x == 0 does not work, this is a workaroud. sorry.
         for card in deck1:
-            playerSave.write(str(card))
+            playerSave.write(card.number)
             playerSave.write(",")
     if (x == 1):
         for card in deck2:
-            playerSave.write(str(card))
+            playerSave.write(card.number)
             playerSave.write(",")
     if (x == 2):
         for card in deck3:
-            playerSave.write(str(card))
+            playerSave.write(card.number)
             playerSave.write(",")
     if (x == 3):
         for card in deck4:
-            playerSave.write(str(card))
+            playerSave.write(card.number)
             playerSave.write(",")
     playerSave.write("\n")
     playerSave.write("-1\n") # no played cards
