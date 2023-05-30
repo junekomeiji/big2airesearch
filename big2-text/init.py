@@ -127,27 +127,3 @@ gameStateSave.write("-1\n") # no current card
 gameStateSave.write(str(firstplayer))
 gameStateSave.close()
 
-for x in range(0,4):
-    print(x)
-    playerSave = open(gl.filenames[x], "w")
-    if (not x): # for some reason x == 0 does not work, this is a workaroud. sorry.
-        for card in deck1:
-            playerSave.write(str(card.number))
-            playerSave.write(",")
-    if (x == 1):
-        for card in deck2:
-            playerSave.write(str(card.number))
-            playerSave.write(",")
-    if (x == 2):
-        for card in deck3:
-            playerSave.write(str(card.number))
-            playerSave.write(",")
-    if (x == 3):
-        for card in deck4:
-            playerSave.write(str(card.number))
-            playerSave.write(",")
-    playerSave.write("\n")
-    playerSave.write("-1\n") # no played cards
-    playerSave.write("-1\n") # no current card
-
-playerSave.close()
