@@ -3,8 +3,3 @@ GAMESTATE:
 [PLAYED CARDS] # all cards that have been played in the game
 [CURRENT CARD/HAND] # card/hand that the current player must beat
 [CURRENT PLAYER] # this is the player that will be playing the next hand
-
-PLAYER:
-[PLAYER CARDS] # cards in hand
-[PLAYED CARDS]
-[CURRENT CARD/HAND]
