@@ -3,6 +3,7 @@ from init import Card
 # Takes a given hand and makes sure it is valid to play.
 # This includes checking if the player has the cards, and also whether the hand is of a higher power.
 # All methods return 0 when hand is valid.
+# Assumtion that cards are sorted according to value.
 
 """
 Return Codes:
