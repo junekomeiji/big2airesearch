@@ -1,7 +1,6 @@
 import random
 import math
 import os
-import globals as gl
 
 class Card:
     def __init__(self, number):
