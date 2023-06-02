@@ -134,10 +134,10 @@ def eaSimple(population, toolbox, cxpb, mutpb, ngen, stats=None,
     
     fitnesses = map(toolbox.evaluate, invalid_indgroups[0], invalid_indgroups[1], invalid_indgroups[2], invalid_indgroups[3])
     for n, fitness in enumerate(fitnesses):
-        invalid_ind[n].fitness.values = fitness[0]
-        invalid_ind[n + group_length].fitness.values = fitness[1]
-        invalid_ind[n + group_length * 2].fitness.values = fitness[2]
-        invalid_ind[n + group_length * 3].fitness.values = fitness[3]
+        invalid_ind[n].fitness.values = (fitness[0],)
+        invalid_ind[n + group_length].fitness.values = (fitness[1],)
+        invalid_ind[n + group_length * 2].fitness.values = (fitness[2],)
+        invalid_ind[n + group_length * 3].fitness.values = (fitness[3],)
         
 
     if halloffame is not None:
@@ -169,10 +169,10 @@ def eaSimple(population, toolbox, cxpb, mutpb, ngen, stats=None,
         
         fitnesses = map(toolbox.evaluate, invalid_indgroups[0], invalid_indgroups[1], invalid_indgroups[2], invalid_indgroups[3])
         for n, fitness in enumerate(fitnesses):
-            invalid_ind[n].fitness.values = fitness[0]
-            invalid_ind[n + group_length].fitness.values = fitness[1]
-            invalid_ind[n + group_length * 2].fitness.values = fitness[2]
-            invalid_ind[n + group_length * 3].fitness.values = fitness[3]
+            invalid_ind[n].fitness.values = (fitness[0],)
+            invalid_ind[n + group_length].fitness.values = (fitness[1],)
+            invalid_ind[n + group_length * 2].fitness.values = (fitness[2],)
+            invalid_ind[n + group_length * 3].fitness.values = (fitness[3],)
 
         # Update the hall of fame with the generated individuals
         if halloffame is not None:
@@ -190,15 +190,17 @@ def eaSimple(population, toolbox, cxpb, mutpb, ngen, stats=None,
     return population, logbook
 
 def model_build():
-    model = tf.keras.Sequential()
-    model.add(tf.keras.Input(shape=(141,)))
-    model.add(tf.keras.layers.Dense(107, activation="relu"))
-    model.add(tf.keras.layers.Dense(107, activation="relu"))
-    model.add(tf.keras.layers.Dense(13, activation="sigmoid"))
+    
+    inputs = tf.keras.layers.Input(shape=(141,))
+    x = tf.keras.layers.Dense(107, activation='relu')(inputs)
+    x = tf.keras.layers.Dense(107, activation='relu')(x)
+    predictions = tf.keras.layers.Dense(10, activation='sigmoid')(x)
+
+    model_func = tf.keras.models.Model(inputs=inputs, outputs=predictions)
     
     # these are not used for this model, but are needed for compilation
-    model.compile(loss='mse', optimizer='adam', metrics=['accuracy'])
-    return model
+    model_func.compile(loss='mse', optimizer='adam', metrics=['accuracy'])
+    return model_func
 
 def generate_input(my_deck, prev_deck, prev_hand):
     inp_vector = []
@@ -224,7 +226,7 @@ def generate_input(my_deck, prev_deck, prev_hand):
 
 def predictions_to_hand(prediction, my_deck):
     hand = []
-    for x, pred in zip(range(13), prediction):
+    for x, pred in zip(range(13), prediction[0]):
         if pred >= 0.5:
             try:
                 hand.append(my_deck[x])
@@ -258,22 +260,23 @@ def evaluate_game(ind1, ind2, ind3, ind4):
         
         prev_deck = []
         if save[5].strip(" \n") != "-1":
-            prev_deck = map(int, save[5].strip(" \n").split(','))
+            prev_deck = list(map(int, save[5].strip(" \n").split(',')))
             
         prev_empty = save[6].strip(" \n") == "-1"
         prev_hand = []
         if prev_empty:
-            prev_hand = map(int, save[6].strip(" \n").split(','))
+            prev_hand = list(map(int, save[6].strip(" \n").split(',')))
         
         playernum = int(save[7].strip(" \n"))
-        my_deck = map(int, save[playernum].strip(" \n").split(','))
+        my_deck = list(map(int, save[playernum].strip(" \n").split(',')))
         
         # Mapping relevant game variables to input vector
         inp_vector = generate_input(my_deck, prev_deck, prev_hand)
-        inp_vector.append(int(save[8].strip[" \n"]))
+        inp_vector.append(int(save[8].strip(" \n")))
         
         #PREDICTION TIME
-        prediction = models[playernum - 1].predict(inp_vector)
+        model_input = tf.expand_dims(inp_vector, axis=0)
+        prediction = models[playernum - 1].predict(model_input)
         
         # Mapping prediction into readable hand
         hand = predictions_to_hand(prediction, my_deck)
@@ -281,16 +284,17 @@ def evaluate_game(ind1, ind2, ind3, ind4):
         # verification and retry
         fails = 0
         while (fails < 5):
-            hand_cards = map(big2text.Card, hand)
-            my_deck_cards = map(big2text.Card, my_deck)
-            prev_hand_cards = map(big2text.Card, prev_hand)
+            hand_cards = list(map(big2text.Card, hand))
+            my_deck_cards = list(map(big2text.Card, my_deck))
+            prev_hand_cards = list(map(big2text.Card, prev_hand))
             if big2text.verify(hand_cards, my_deck_cards, prev_hand_cards, prev_empty, first_hand) != 0:
                 # try a different prediction by shuffling cards in hand
                 fails += 1
                 random.shuffle(my_deck)
                 inp_vector = generate_input(my_deck, prev_deck, prev_hand)
-                inp_vector.append(int(save[8].strip[" \n"]))
-                prediction = models[playernum - 1].predict(inp_vector)
+                inp_vector.append(int(save[8].strip(" \n")))
+                model_input = tf.expand_dims(inp_vector, axis=0)
+                prediction = models[playernum - 1].predict(model_input)
                 hand = predictions_to_hand(prediction, my_deck)
             else:
                 break
@@ -319,6 +323,7 @@ def evaluate_game(ind1, ind2, ind3, ind4):
         # Check for too many skips
         if consec_skips > 12:
             exit = True
+        first_hand = False
 
     # Once finished, calculate fitness
     # When exited because skips, everyone gets a negative fitness
@@ -343,6 +348,7 @@ def evaluate_game(ind1, ind2, ind3, ind4):
     return fitnesses
         
 model = model_build()
+model.summary()
 ind_size = model.count_params()
 
 creator.create("FitnessMax", base.Fitness, weights=(1.0,))
@@ -366,7 +372,7 @@ pop = toolbox.population(n=100)   #n = No. of individual in a population
 hof = tools.HallOfFame(1)
 
 #Run GA with crossover probability 0.5, mutation probability 0.01 and for 30 generations
-pop, log = algorithms.eaSimple(pop, toolbox, cxpb=0.5, mutpb=0.01, ngen=30, halloffame=hof, stats=stats)
+pop, log = eaSimple(pop, toolbox, cxpb=0.5, mutpb=0.01, ngen=30, halloffame=hof, stats=stats)
 
 # takes the best individual of the latest generation and saves it as an object
 best_pop = sorted(pop, key=lambda ind: ind.fitness, reverse=True)[0]
