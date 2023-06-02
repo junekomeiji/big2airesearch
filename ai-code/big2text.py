@@ -113,11 +113,13 @@ def init():
     print(deck3)
     print(deck4)
     print(firstplayer)
-    try:
-        os.mkdir("saved_data")
-    except FileExistsError:
-        print("folder already exists.")
-    os.chdir("saved_data")
+    if os.getcwd()[-5:] != "_data":
+        print("moving to save folder")
+        try:
+            os.mkdir("saved_data")
+        except FileExistsError:
+            print("folder already exists.")
+        os.chdir("saved_data")
 
     gameStateSave = open("gamestate", "w")
     gameStateSave.write(','.join(map(str,map(int,deck))))
@@ -279,8 +281,9 @@ def execute_move(hand: list, player: int): #given a valid hand, changes the game
         deck.append(int(cardstr))
 
     used_deck = list(map(int,hand))
-    for cardstr in save[5].split(','): # adds used cards to the used deck
-        used_deck.append(int(cardstr))
+    for cardstr in save[5].strip[" \n"].split(','): # adds used cards to the used deck
+        if cardstr != "-1":
+            used_deck.append(int(cardstr))
     used_deck.sort()
     
     for card in hand:
