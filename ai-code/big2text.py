@@ -281,8 +281,10 @@ def execute_move(hand: list, player: int): #given a valid hand, changes the game
         deck.append(int(cardstr))
 
     used_deck = list(map(int,hand))
-    for cardstr in save[5].strip[" \n"].split(','): # adds used cards to the used deck
-        if cardstr != "-1":
+    for cardstr in save[5].strip(" \n").split(','): # adds used cards to the used deck
+        if cardstr == "-1" and len(used_deck) == 0:
+            used_deck.append(int(cardstr))
+        elif cardstr != "-1":
             used_deck.append(int(cardstr))
     used_deck.sort()
     
@@ -298,8 +300,11 @@ def execute_move(hand: list, player: int): #given a valid hand, changes the game
             file.write(save[x])
     file.write(','.join(map(str,used_deck)))
     file.write("\n")
-    file.write(','.join(map(str,map(int,hand))))
-    file.write("\n")
+    if len(hand) == 0:
+        file.write(save[6])
+    else:
+        file.write(','.join(map(str,map(int,hand))))
+        file.write("\n")
     file.write(str(nextplayer(player)))
     file.write("\n")
     skip = int(save[8].strip(" \n"))
@@ -318,7 +323,7 @@ def reset_hand(): #resets the hand when a full skip has been done
     save = file.readlines()
     file.close()
     
-    save[5] = "-1\n"
+    save[6] = "-1\n"
     save[8] = "0\n"
     file = open("gamestate", "w")
     file.writelines(save)

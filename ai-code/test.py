@@ -259,7 +259,7 @@ def evaluate_game(ind1, ind2, ind3, ind4):
         skips = int(save[8].strip(" \n"))
         
         prev_deck = []
-        if save[5].strip(" \n") != "-1":
+        if save[5].strip(" \n") != "-1" and save[5].strip(" \n") != "":
             prev_deck = list(map(int, save[5].strip(" \n").split(',')))
             
         prev_empty = save[6].strip(" \n") == "-1"
@@ -372,7 +372,7 @@ pop = toolbox.population(n=100)   #n = No. of individual in a population
 hof = tools.HallOfFame(1)
 
 #Run GA with crossover probability 0.5, mutation probability 0.01 and for 30 generations
-pop, log = eaSimple(pop, toolbox, cxpb=0.5, mutpb=0.01, ngen=30, halloffame=hof, stats=stats)
+pop, log = eaSimple(pop, toolbox, cxpb=0.5, mutpb=0.01, ngen=30, halloffame=hof, stats=stats, verbose=True)
 
 # takes the best individual of the latest generation and saves it as an object
 best_pop = sorted(pop, key=lambda ind: ind.fitness, reverse=True)[0]
