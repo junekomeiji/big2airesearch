@@ -2,7 +2,13 @@ import random
 import math
 import os
 
+# Composite of every script in ./big2-text/ for importing in other modules. 
+
 class Card:
+    def num_to_vector(num: int):
+        cd = Card(num)
+        return cd.to_vector()
+    
     def __init__(self, number):
         self.number = number
         self.suit = number % 4
@@ -30,6 +36,12 @@ class Card:
                 self.colour = 'clubs'
             case 0:
                 self.colour = 'diamonds'
+                
+    def to_vector(self):
+        out = []
+        out.append(self.value + 1)
+        out.append(self.suit + 1)
+        return out
         
     def __str__(self):
         return str(self.colour) + " " + str(self.ppValue)
@@ -47,7 +59,7 @@ class Card:
     def __gt__(self, other):
         return self.number > other.number
 
-def main():
+def init():
     print("Initializing game...")
     print("Creating deck...")
     deck = []
@@ -121,6 +133,7 @@ def main():
     gameStateSave.write("-1\n") # no played cards
     gameStateSave.write("-1\n") # no current card
     gameStateSave.write(str(firstplayer))
+    gameStateSave.write("0") # no skips yet
     gameStateSave.close()
     
 # Takes a given hand and makes sure it is valid to play.
@@ -135,9 +148,18 @@ Return Codes:
 2 - Hand is not of same type!
 3* - Hand is of lower power!
 4* - Hand is not correct!
+5 - Hand does not contain 3 of diamonds
 """
 
 # hand, prev_hand, and inventory are all lists of Card objects
+
+def verify_firsthand(hand: list) -> int:
+    if 0 not in hand:
+        return 5
+    else:
+        return 0
+        
+    
 
 def verify_inventory(hand: list, inventory: list) -> int:
     # checks if player has the cards in their inventory.
@@ -157,8 +179,10 @@ def verify_type(hand: list) -> int:
         return 0
     elif len(hand) == 4:
         return 44
+    elif len(hand) == 5:
+        return 0 # check for 5-card hands is in verify_power\
     else:
-        return 0 # check for 5-card hands is in verify_power
+        return 4 + len(hand)
 
 def verify_power(hand: list, prev_hand: list, prev_empty: bool = False) -> int:
     # checks if hand is of higher power
@@ -223,11 +247,17 @@ def verify_power(hand: list, prev_hand: list, prev_empty: bool = False) -> int:
             else:
                 return 350 + rank(hand)
             
-def verify(hand, inventory, prev_hand, prev_empty = False):
+def verify(hand, inventory, prev_hand, prev_empty = False, first_hand = False):
+    
+    if first_hand:
+        ret = verify_firsthand(hand)
+        if ret != 0:
+            return ret
+    
     ret = verify_inventory(hand, inventory)
     if ret != 0:
         return ret
-    ret =verify_type(hand)
+    ret = verify_type(hand)
     if ret != 0:
         return ret
     ret = verify_power(hand, prev_hand, prev_empty)
@@ -243,30 +273,59 @@ def execute_move(hand: list, player: int): #given a valid hand, changes the game
     file = open("gamestate", "r")
     save = file.readlines()
     file.close()
-    deck = []
+    deck = [] # old player deck
     for cardstr in save[player].split(','):
         deck.append(int(cardstr))
 
     used_deck = [map(int,hand)]
-    for cardstr in save[5].split(','):
+    for cardstr in save[5].split(','): # adds used cards to the used deck
         used_deck.append(int(cardstr))
     used_deck.sort()
     
     for card in hand:
-        deck.remove(card.number)
+        deck.remove(card.number) # removes used cards from deck
+    deck.sort()
     file = open("gamestate", "w")
     for x in range(5): # writes the various decks
         if x == player:
             file.write(','.join(map(str,deck)))
+            file.write("\n")
         else:
-            file.write(save[x]) 
-        file.write("\n")
+            file.write(save[x])
     file.write(','.join(map(str,used_deck)))
     file.write("\n")
     file.write(','.join(map(str,map(int,hand))))
     file.write("\n")
     file.write(str(nextplayer(player)))
+    file.write("\n")
+    skip = int(save[8].strip(" \n"))
+    if len(hand) == 0:
+        skip += 1
+        file.write(str(skip))
+    else:
+        file.write(save[8])
+    file.close()
+    
+    if skip >= 3:
+        reset_hand()
+    
+def reset_hand(): #resets the hand when a full skip has been done
+    file = open("gamestate", "r")
+    save = file.readlines()
+    file.close()
+    
+    save[5] = "-1\n"
+    save[8] = "0\n"
+    file = open("gamestate", "w")
+    file.writelines(save)
     file.close()
 
+def are_we_done_yet() -> int: # returns player number when a player has won, else, return zero
+    file = open("gamestate", "r")
+    save = file.readlines()
+    if "\n" in save:
+        return save.index("\n")
+    return 0
+    
 if __name__ == "__main__":
     pass
