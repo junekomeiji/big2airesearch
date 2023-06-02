@@ -1,3 +1,4 @@
 saved_data
 .vscode
-big2-text/__pycache__
+__pycache__/
+ai-code/__pycache__/big2text.cpython-311.pyc
