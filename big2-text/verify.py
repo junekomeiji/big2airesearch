@@ -104,7 +104,7 @@ def verify(hand, inventory, prev_hand, prev_empty = False):
     ret = verify_inventory(hand, inventory)
     if ret != 0:
         return ret
-    ret =verify_type(hand)
+    ret = verify_type(hand)
     if ret != 0:
         return ret
     ret = verify_power(hand, prev_hand, prev_empty)
