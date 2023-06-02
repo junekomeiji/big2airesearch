@@ -133,6 +133,7 @@ def init():
     gameStateSave.write("-1\n") # no played cards
     gameStateSave.write("-1\n") # no current card
     gameStateSave.write(str(firstplayer))
+    gameStateSave.write("\n")
     gameStateSave.write("0") # no skips yet
     gameStateSave.close()
     
@@ -154,7 +155,7 @@ Return Codes:
 # hand, prev_hand, and inventory are all lists of Card objects
 
 def verify_firsthand(hand: list) -> int:
-    if 0 not in hand:
+    if Card(0) not in hand:
         return 5
     else:
         return 0
@@ -277,7 +278,7 @@ def execute_move(hand: list, player: int): #given a valid hand, changes the game
     for cardstr in save[player].split(','):
         deck.append(int(cardstr))
 
-    used_deck = [map(int,hand)]
+    used_deck = list(map(int,hand))
     for cardstr in save[5].split(','): # adds used cards to the used deck
         used_deck.append(int(cardstr))
     used_deck.sort()
