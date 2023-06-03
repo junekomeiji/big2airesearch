@@ -270,7 +270,10 @@ def evaluate_game(ind1, ind2, ind3, ind4):
             prev_hand = list(map(int, save[6].strip(" \n").split(',')))
         
         playernum = int(save[7].strip(" \n"))
-        my_deck = list(map(int, save[playernum].strip(" \n").split(',')))
+        if save[playernum] == "":
+            break
+        else:
+            my_deck = list(map(int, save[playernum].strip(" \n").split(',')))
         
         # Mapping relevant game variables to input vector
         inp_vector = generate_input(my_deck, prev_deck, prev_hand)
