@@ -266,7 +266,7 @@ def evaluate_game(ind1, ind2, ind3, ind4):
             
         prev_empty = save[6].strip(" \n") == "-1"
         prev_hand = []
-        if prev_empty:
+        if not prev_empty:
             prev_hand = list(map(int, save[6].strip(" \n").split(',')))
         
         playernum = int(save[7].strip(" \n"))
