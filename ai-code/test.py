@@ -232,6 +232,8 @@ def predictions_to_hand(prediction, my_deck):
                 hand.append(my_deck[x])
             except IndexError:
                 pass
+        if len(hand) == 5:
+            break
     hand.sort()
     return hand
 
@@ -290,7 +292,7 @@ def evaluate_game(ind1, ind2, ind3, ind4):
             if big2text.verify(hand_cards, my_deck_cards, prev_hand_cards, prev_empty, first_hand) != 0:
                 # try a different prediction by shuffling cards in hand
                 fails += 1
-                random.shuffle(my_deck)
+                # random.shuffle(my_deck)
                 inp_vector = generate_input(my_deck, prev_deck, prev_hand)
                 inp_vector.append(int(save[8].strip(" \n")))
                 model_input = tf.expand_dims(inp_vector, axis=0)
