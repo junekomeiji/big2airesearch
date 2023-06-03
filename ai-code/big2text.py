@@ -332,8 +332,9 @@ def reset_hand(): #resets the hand when a full skip has been done
 def are_we_done_yet() -> int: # returns player number when a player has won, else, return zero
     file = open("gamestate", "r")
     save = file.readlines()
-    if "\n" in save:
-        return save.index("\n")
+    for x in range(1,5):
+        if save[x].strip("\n ") == "":
+            return x
     return 0
     
 if __name__ == "__main__":
