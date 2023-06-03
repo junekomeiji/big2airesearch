@@ -121,9 +121,9 @@ def eaSimple(population, toolbox, cxpb, mutpb, ngen, stats=None,
     logbook = tools.Logbook()
     logbook.header = ['gen', 'nevals'] + (stats.fields if stats else [])
 
-    # Evaluate the individuals with an invalid fitness
-    invalid_ind = [ind for ind in population if not ind.fitness.valid]
     # MODIFICATIONS HERE: Fitness is done in groups of 4 instead of individually.
+    # All individuals are re-tested for fitness instead of just new individuals.
+    invalid_ind = [ind for ind in population]
     group_length = int(np.floor_divide(len(invalid_ind), 4))
     invalid_indgroups = []
     for i in range(4):
@@ -156,9 +156,9 @@ def eaSimple(population, toolbox, cxpb, mutpb, ngen, stats=None,
         # Vary the pool of individuals
         offspring = varAnd(offspring, toolbox, cxpb, mutpb)
 
-        # Evaluate the individuals with an invalid fitness
-        invalid_ind = [ind for ind in offspring if not ind.fitness.valid]
         # MODIFICATIONS HERE: Fitness is done in groups of 4 instead of individually.
+        # All individuals are re-tested for fitness instead of just new individuals.
+        invalid_ind = [ind for ind in offspring]
         group_length = int(np.floor_divide(len(invalid_ind), 4))
         invalid_indgroups = []
         for i in range(4):
@@ -271,6 +271,7 @@ def evaluate_game(ind1, ind2, ind3, ind4):
         
         playernum = int(save[7].strip(" \n"))
         if save[playernum] == "":
+            winner = playernum
             break
         else:
             my_deck = list(map(int, save[playernum].strip(" \n").split(',')))
@@ -377,9 +378,15 @@ pop = toolbox.population(n=100)   #n = No. of individual in a population
 hof = tools.HallOfFame(1)
 
 #Run GA with crossover probability 0.5, mutation probability 0.01 and for 30 generations
-pop, log = eaSimple(pop, toolbox, cxpb=0.5, mutpb=0.01, ngen=30, halloffame=hof, stats=stats, verbose=True)
+pop, log = eaSimple(pop, toolbox, cxpb=0.5, mutpb=0.01, ngen=2, halloffame=hof, stats=stats, verbose=True)
 
 # takes the best individual of the latest generation and saves it as an object
 best_pop = sorted(pop, key=lambda ind: ind.fitness, reverse=True)[0]
 with open("big2_model.pkl", "wb") as md_file:
     pickle.dump(best_pop, md_file)
+
+print(log)
+print(str(log))
+
+with open("logbook.log", "w+") as log_file:
+    log_file.write(str(log))
