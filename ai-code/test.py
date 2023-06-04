@@ -8,10 +8,10 @@ import pickle
 import gc
 import os
 
-def reset_tensorflow_keras_backend():
+def reset_tensorflow_keras_backend(): # Code to clear memory usage by Keras
     import tensorflow as tf
     tf.keras.backend.clear_session()
-    tf.reset_default_graph()
+    tf.compat.v1.reset_default_graph()
     _ = gc.collect()
 
 def varAnd(population, toolbox, cxpb, mutpb):
@@ -411,7 +411,8 @@ def impor():
     
 
 
-def main():    
+def main():
+    reset_tensorflow_keras_backend()
     model = model_build()
     model.summary()
     ind_size = model.count_params()
