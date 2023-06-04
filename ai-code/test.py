@@ -8,6 +8,12 @@ import pickle
 import gc
 import os
 
+def reset_tensorflow_keras_backend():
+    import tensorflow as tf
+    tf.keras.backend.clear_session()
+    tf.reset_default_graph()
+    _ = gc.collect()
+
 def varAnd(population, toolbox, cxpb, mutpb):
     r"""Part of an evolutionary algorithm applying only the variation part
     (crossover **and** mutation). The modified individuals have their
@@ -190,8 +196,9 @@ def eaSimple(population, toolbox, cxpb, mutpb, ngen, stats=None,
         if verbose:
             print(logbook.stream)
             
-        # starts garbage cleaning
+        # starts cleans memory
         gc.collect()
+        reset_tensorflow_keras_backend()
 
     return population, logbook
 
