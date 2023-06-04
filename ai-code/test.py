@@ -320,7 +320,7 @@ def evaluate_game(ind1, ind2, ind3, ind4):
         else:
             # if the model fails to produce a valid hand, force to skip
             # except on first move, where 3 of diamonds is forced to be put down
-            if first_hand:
+            if first_hand and big2text.verify([big2text.Card(0)]):
                 hand_cards = [big2text.Card(0)]
             else:
                 hand_cards = []
