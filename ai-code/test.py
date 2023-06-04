@@ -1,7 +1,7 @@
 import tensorflow as tf
 import numpy as np
 import random
-from deap import base, creator, tools, algorithms
+from deap import base, creator, tools
 from pygad.kerasga import model_weights_as_matrix
 import big2text
 import pickle
@@ -378,8 +378,31 @@ def export(pop):
             return export(pop)
     with open("big2_exporp.pkl", "wb") as exp_file:
         pickle.dump(expop, exp_file)
-    return
+    return None
     
+def impor():
+    if os.getcwd()[-5:] != "_data":
+        print("moving to save folder")
+        try:
+            os.mkdir("saved_data")
+        except FileExistsError:
+            print("folder already exists.")
+        os.chdir("saved_data")
+    print("Finding saved population...")
+    try:
+        file = open("big2_exporp.pkl", "rb")
+        pop = pickle.load(file)
+        file.close()
+        print("File loaded...")
+        print(f"Population size: {len(pop)}")
+        input("Press enter to import...")
+        return pop, len(pop)
+    except FileNotFoundError:
+        print("Saved file doesn't exist?")
+        input("Enter to return...")
+    return None, -1
+    
+
 
 def main():    
     model = model_build()
@@ -423,6 +446,7 @@ def main():
             print(f"[M]utation probability: {mutpb}")
             print("")
             print(f"[E]xport population")
+            print(f"[I]mport population")
             print(f"E[x]it")
             match input("Press Enter to start, or configure settings. ").strip().lower():
                 case "p":
@@ -449,6 +473,11 @@ def main():
                     if cgen == 0:
                             pop = toolbox.population(n=popn)
                     export(pop)
+                case "i":
+                    pup, pupn = impor()
+                    if pupn != -1:
+                        pop = pup
+                        popn = pupn
                 case "x":
                     return
                 case "":
