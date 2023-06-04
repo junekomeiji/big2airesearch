@@ -5,6 +5,8 @@ from deap import base, creator, tools, algorithms
 from pygad.kerasga import model_weights_as_matrix
 import big2text
 import pickle
+import gc
+import os
 
 def varAnd(population, toolbox, cxpb, mutpb):
     r"""Part of an evolutionary algorithm applying only the variation part
@@ -120,7 +122,7 @@ def eaSimple(population, toolbox, cxpb, mutpb, ngen, stats=None,
     """
     logbook = tools.Logbook()
     logbook.header = ['gen', 'nevals'] + (stats.fields if stats else [])
-
+    print("Generation 0")
     # MODIFICATIONS HERE: Fitness is done in groups of 4 instead of individually.
     # All individuals are re-tested for fitness instead of just new individuals.
     invalid_ind = [ind for ind in population]
@@ -155,7 +157,8 @@ def eaSimple(population, toolbox, cxpb, mutpb, ngen, stats=None,
 
         # Vary the pool of individuals
         offspring = varAnd(offspring, toolbox, cxpb, mutpb)
-
+        
+        print(f"Generation {gen}")
         # MODIFICATIONS HERE: Fitness is done in groups of 4 instead of individually.
         # All individuals are re-tested for fitness instead of just new individuals.
         invalid_ind = [ind for ind in offspring]
@@ -186,6 +189,9 @@ def eaSimple(population, toolbox, cxpb, mutpb, ngen, stats=None,
         logbook.record(gen=gen, nevals=len(invalid_ind), **record)
         if verbose:
             print(logbook.stream)
+            
+        # starts garbage cleaning
+        gc.collect()
 
     return population, logbook
 
@@ -352,41 +358,112 @@ def evaluate_game(ind1, ind2, ind3, ind4):
     
     # End of evaluation
     return fitnesses
-        
-model = model_build()
-model.summary()
-ind_size = model.count_params()
 
-creator.create("FitnessMax", base.Fitness, weights=(1.0,))
-creator.create("Individual", list, fitness=creator.FitnessMax)
-toolbox = base.Toolbox()
-toolbox.register("weight_bin", random.random) # Generating random weights
-toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.weight_bin, n=ind_size)
-toolbox.register("population", tools.initRepeat, list, toolbox.individual)
+def export(pop):
+    os.system('cls' if os.name == 'nt' else 'clear')
+    inp = input("Export how many? (leave empty for whole population): ").strip()
+    if inp == "":
+        expn = len(pop)
+    else:
+        expn = int(inp)
+        if expn > len(pop):
+            expn = len(pop)
+    inp = input("[B]est or [w]orst? ").strip().lower()
+    match inp:
+        case "b":
+            expop = sorted(pop, key=lambda ind: ind.fitness, reverse=True)[:expn]
+        case "w":
+            expop = sorted(pop, key=lambda ind: ind.fitness, reverse=False)[:expn]
+        case other:
+            return export(pop)
+    with open("big2_exporp.pkl", "wb") as exp_file:
+        pickle.dump(expop, exp_file)
+    return
+    
 
-toolbox.register("mate", tools.cxTwoPoint)
-toolbox.register("mutate", tools.mutFlipBit, indpb=0.01)
-toolbox.register("select", tools.selTournament, tournsize=3)
-toolbox.register("evaluate", evaluate_game)
+def main():    
+    model = model_build()
+    model.summary()
+    ind_size = model.count_params()
 
-stats = tools.Statistics(lambda ind: ind.fitness.values)
-stats.register("Mean", np.mean)
-stats.register("Max", np.max)
-stats.register("Min", np.min)
+    print(gc.isenabled())
 
-pop = toolbox.population(n=100)   #n = No. of individual in a population
-hof = tools.HallOfFame(1)
+    creator.create("FitnessMax", base.Fitness, weights=(1.0,))
+    creator.create("Individual", list, fitness=creator.FitnessMax)
+    toolbox = base.Toolbox()
+    toolbox.register("weight_bin", random.random) # Generating random weights
+    toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.weight_bin, n=ind_size)
+    toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 
-#Run GA with crossover probability 0.5, mutation probability 0.01 and for 30 generations
-pop, log = eaSimple(pop, toolbox, cxpb=0.5, mutpb=0.01, ngen=2, halloffame=hof, stats=stats, verbose=True)
+    toolbox.register("mate", tools.cxTwoPoint)
+    toolbox.register("mutate", tools.mutFlipBit, indpb=0.01)
+    toolbox.register("select", tools.selTournament, tournsize=3)
+    toolbox.register("evaluate", evaluate_game)
 
-# takes the best individual of the latest generation and saves it as an object
-best_pop = sorted(pop, key=lambda ind: ind.fitness, reverse=True)[0]
-with open("big2_model.pkl", "wb") as md_file:
-    pickle.dump(best_pop, md_file)
+    stats = tools.Statistics(lambda ind: ind.fitness.values)
+    stats.register("Mean", np.mean)
+    stats.register("Max", np.max)
+    stats.register("Min", np.min)
 
-print(log)
-print(str(log))
+    popn = 100
+    hof = tools.HallOfFame(1)
+    ngen = 30
+    cxpb = 0.5
+    mutpb = 0.1
+    cgen = 0
+    
+    while(True):
+        while(True):
+            os.system('cls' if os.name == 'nt' else 'clear')
+            print(f"Current generation: {cgen}")
+            print("Configuration:")
+            print(f"[P]opulation size: {popn}")
+            print(f"[N]umber of generations: {ngen}")
+            print(f"[C]rossover probability: {cxpb}")
+            print(f"[M]utation probability: {mutpb}")
+            print("")
+            print(f"[E]xport population")
+            print(f"E[x]it")
+            match input("Press Enter to start, or configure settings. ").strip().lower():
+                case "p":
+                    try:
+                        popn = int(input("New population size: ").strip())
+                    except:
+                        pass
+                case "n":
+                    try:
+                        ngen = int(input("New generation count: ").strip())
+                    except:
+                        pass
+                case "c":
+                    try:
+                        cxpb = float(input("New crossover proability: ").strip())
+                    except:
+                        pass
+                case "m":
+                    try:
+                        mutpb = float(input("New mutation probability: ").strip())
+                    except:
+                        pass
+                case "e":
+                    if cgen == 0:
+                        pop = toolbox.population(n=popn)
+                    export(pop)
+                case "x":
+                    return
+                case "":
+                    break
+                case other:
+                    pass
+                
+        # Runs the GA with the specified values
+        if cgen == 0:
+            pop = toolbox.population(n=popn)
+        pop, log = eaSimple(pop, toolbox, cxpb=cxpb, mutpb=mutpb, ngen=ngen, halloffame=hof, stats=stats, verbose=True)
+        cgen += ngen
+        with open("logbook.log", "a+") as log_file:
+            log_file.write(str(log))
 
-with open("logbook.log", "w+") as log_file:
-    log_file.write(str(log))
+    
+if __name__ == "__main__":
+    main()
