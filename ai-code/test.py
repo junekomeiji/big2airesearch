@@ -295,7 +295,7 @@ def evaluate_game(ind1, ind2, ind3, ind4):
         
         #PREDICTION TIME
         model_input = tf.expand_dims(inp_vector, axis=0)
-        prediction = models[playernum - 1].predict(model_input)
+        prediction = models[playernum - 1](model_input)
         
         # Mapping prediction into readable hand
         hand = predictions_to_hand(prediction, my_deck)
@@ -313,7 +313,7 @@ def evaluate_game(ind1, ind2, ind3, ind4):
                 inp_vector = generate_input(my_deck, prev_deck, prev_hand)
                 inp_vector.append(int(save[8].strip(" \n")))
                 model_input = tf.expand_dims(inp_vector, axis=0)
-                prediction = models[playernum - 1].predict(model_input)
+                prediction = models[playernum - 1](model_input)
                 hand = predictions_to_hand(prediction, my_deck)
             else:
                 break
