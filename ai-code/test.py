@@ -447,7 +447,7 @@ def main():
                         pass
                 case "e":
                     if cgen == 0:
-                        pop = toolbox.population(n=popn)
+                            pop = toolbox.population(n=popn)
                     export(pop)
                 case "x":
                     return
