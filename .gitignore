@@ -1,3 +1,10 @@
 saved_data
 .vscode
 __pycache__/
+*.aux
+*.log
+*.nav
+*.out
+*.pdf
+*.snm
+*.toc
