@@ -1,6 +1,9 @@
 \documentclass{beamer}
 \usetheme{Boadilla}
 \usepackage{pgfplots}
+\usepackage{graphicx}
+\usepackage{svg}
+\graphicspath{./}
 
 \title{Challenging Genetic Algorithms for Artificial Intelligence with Random Multi-opponent Games}
 \author{Isa bin Mohd Faizal, Muhammad Amir Rafiq}
@@ -82,16 +85,27 @@
 	\begin{itemize}
 		
 		\item The models will be sorted according to their performance by amount of points.
-		\item The \verb|eaSimple| algorithm, provided by the \texttt{DEAP} python package, will handle crossover and mutation to generate a new population.
+		\item The \texttt{eaSimple} algorithm, provided by the DEAP python package, will handle crossover and mutation to generate a new population.
 		\item The crossover probabily was set to 0.8 (80\%), and the mutation probabily was set to 0.01 (1\%).
 		\item The mean, lowest and highest score will be tracked over time.
-		
 	\end{itemize}
 	
 \end{frame}
 
-
-
+\begin{frame}{\texttt{eaSimple - DEAP}}
+	
+	\begin{itemize}
+		\item The parent population is taken, and pairs of consecutive individuals are formed.
+		\item These pairs undergo two-point crossover.
+		\begin{figure}[h]
+			\includesvg[width=\textwidth]{TwoPointCrossover.svg}
+			\caption{Visual representation of two-point crossover.}
+			\centering
+		\end{figure}
+		\item 
+	\end{itemize}
+	
+\end{frame}
 \begin{frame}{Results}
 	
 	\begin{itemize}
