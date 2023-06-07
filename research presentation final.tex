@@ -31,9 +31,9 @@
 		\item  Artificial intelligence can beat even the best human players in various video games.
 		\item Stockfish and AlphaGo
 		\item However, most of these games are fully deterministic.
-		
+		\item There is only one possible starting point, which sets a base for neural networks and AI to iterate upon.
 	\end{itemize}
-	
+	What would happen if an AI needed to learn from starting a random gamestate? Will this affect its performance?
 	
 \end{frame}
 
@@ -57,7 +57,7 @@
 		\item Improve on past models of artificial intelligence using elements of randomness
 		\item Incorporating elements of randomness into the model itself to prevent premature plateauing of performance
 		\item Games of luck are particularly prone to problems of plateauing performance due to lower correlation between skill and winning
-		
+
 	\end{itemize}
 	
 \end{frame}
@@ -67,9 +67,9 @@
 	\begin{itemize}
 	
 		\item Sets of 100 neural networks are generated randomly
-		\item Each neural network will play against all other models
-		\item Performance of the neural network is measured by a point system based on the placement of the neural networks
-		
+		\item Each neural network will play against other models in its generation.
+		\item Performance of the neural network is measured by a point system based on how many cards the NN is holding at the end of the round.
+
 	\end{itemize}
 	
 \end{frame}
@@ -78,12 +78,17 @@
 	
 	\begin{itemize}
 		
-		\item The models will be sorted according to their performance by amount of points
-		\item The top 50th percentile of neural networks will be allowed to reproduce with slight mutation to create two successors
+		\item The models will be sorted according to their performance by amount of points.
+		\item The \verb|eaSimple| algorithm, provided by the \texttt{DEAP} python package, will handle crossover and mutation to generate a new population.
+		\item The crossover probabily was set to 0.8 (80\%), and the mutation probabily was set to 0.01 (1\%).
 		\item The mean, lowest and highest score will be tracked over time.
 		
 	\end{itemize}
 	
+\end{frame}
+
+\begin{frame}{\texttt{eaSimple - DEAP}}
+
 \end{frame}
 
 \begin{frame}{Results}
