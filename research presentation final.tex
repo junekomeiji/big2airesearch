@@ -40,6 +40,18 @@
 	
 \end{frame}
 
+\begin{frame}{Introduction}
+	
+	\begin{itemize}
+		\item  There are games with large amounts of randomness, but are reliant on skill.
+		\item Big2, Poker (most varieties)
+		\item Big2 is a card game popular in East Asia with high elements of chance as well as varying game states. 
+		
+	\end{itemize}
+	
+	
+\end{frame}
+
 \begin{frame}{Problem Statement}
 
 	\begin{itemize}
@@ -61,6 +73,18 @@
 		\item Incorporating elements of randomness into the model itself to prevent premature plateauing of performance
 		\item Games of luck are particularly prone to problems of plateauing performance due to lower correlation between skill and winning
 
+	\end{itemize}
+	
+\end{frame}
+
+\begin{frame}{Objective}
+	
+	\begin{itemize}
+		
+		\item Improve on past models of artificial intelligence using elements of randomness
+		\item Incorporating elements of randomness into the model itself to prevent premature plateauing of performance
+		\item Games of luck are particularly prone to problems of plateauing performance due to lower correlation between skill and winning
+		
 	\end{itemize}
 	
 \end{frame}
@@ -119,6 +143,7 @@
 		]
 		
 		\addplot table[x=Gen, y=Min] {\table};
+		\legend{Minimum score}
 		\end{axis}
 	\end{tikzpicture}
 \end{frame}
@@ -139,6 +164,7 @@
 			]
 			
 			\addplot table[x=Gen, y=Mean] {\table};
+			\legend{Mean score}
 		\end{axis}
 	\end{tikzpicture}
 \end{frame}
@@ -159,16 +185,42 @@
 			]
 			
 			\addplot table[x=Gen, y=Max] {\table};
+			\legend{Max score}		
 		\end{axis}
 	\end{tikzpicture}
+\end{frame}	
+
+\begin{frame}{Discussion}
+	\begin{itemize}
+		\item After 1000 generations, there are still no signs of learning from the neural networks
+		\item This is unlikely to be the fault of the neural network itself, given the amount of computational power involved
+		\item Results are still inconclusive due to only being able to perform experiments with up to 1k generations, as opposed to 150k as in previous models
+		\item Likely to be the fault of the genetic model itself
+	\end{itemize}
 \end{frame}
 
 \begin{frame}{Discussion}
-	
+	\begin{itemize}
+		\item Because of the randomised nature of generation, as well as the lack of obvious continuity between generations, genetic algorithms may not be suitable for randomised games.
+		\item Genetic algorithms are generally unable to create neural networks that can "reason" with an if-then logic, not especially to the level for a game as complex as Big2
+		\item Does not bode well for future uses of genetic algorithms for more complex games such as Texas Hold'em Poker
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Discussion}
+	\begin{itemize}
+		\item Deep neural networks may be more suitable for these kinds of games as shown with previous examples with Poker
+		\item Reinforcement learning has also been used in the past to play games of chance
+		\item More work needs to be done in the field of using artificial intelligence to games of chance, especially in ways that promise less usage of computational power
+	\end{itemize}
 \end{frame}
 
 \begin{frame}{Conclusion}
-
+	\begin{itemize}
+		\item Genetic algorithms may not be suitable for training artificial intelligence to play games of chance
+		\item More computational time and work is needed to conclusively decide the capabilities of genetic algorithms to train neural networks for games of chance
+		\item More work needs to be done in the field of using artificial intelligence to games of chance, especially in ways that promise less usage of computational power
+	\end{itemize}
 \end{frame}
 
 
