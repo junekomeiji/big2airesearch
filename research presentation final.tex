@@ -13,7 +13,8 @@
 \section{Results}
 \section{Discussion}
 \section{Conclusions}
-
+\section{Acknowledgments}
+\section{References}
 \begin{document}
 	
 \pgfplotstableread{gen3.dat}{\table}
@@ -32,11 +33,11 @@
 	
 	\begin{itemize}
 		\item  Artificial intelligence can beat even the best human players in various video games.
-		\item Stockfish and AlphaGo
+		\item Stockfish and AlphaGo \cite{chessai} \cite{goai}
 		\item However, most of these games are fully deterministic.
-		\item There is only one possible starting point, which sets a base for neural networks and AI to iterate upon.
+		
 	\end{itemize}
-	What would happen if an AI needed to learn from starting a random gamestate? Will this affect its performance?
+	
 	
 \end{frame}
 
@@ -45,7 +46,7 @@
 	\begin{itemize}
 		\item  There are games with large amounts of randomness, but are reliant on skill.
 		\item Big2, Poker (most varieties)
-		\item Big2 is a card game popular in East Asia with high elements of chance as well as varying game states. 
+		\item Big2 is a card game popular in East Asia with high elements of chance as well as varying game states. \cite{big2aitree}
 		
 	\end{itemize}
 	
@@ -72,31 +73,20 @@
 		\item Improve on past models of artificial intelligence using elements of randomness
 		\item Incorporating elements of randomness into the model itself to prevent premature plateauing of performance
 		\item Games of luck are particularly prone to problems of plateauing performance due to lower correlation between skill and winning
-
-	\end{itemize}
-	
-\end{frame}
-
-\begin{frame}{Objective}
-	
-	\begin{itemize}
-		
-		\item Improve on past models of artificial intelligence using elements of randomness
-		\item Incorporating elements of randomness into the model itself to prevent premature plateauing of performance
-		\item Games of luck are particularly prone to problems of plateauing performance due to lower correlation between skill and winning
 		
 	\end{itemize}
 	
 \end{frame}
+
 
 \begin{frame}{Methodology}
 	
 	\begin{itemize}
 	
 		\item Sets of 100 neural networks are generated randomly
-		\item Each neural network will play against other models in its generation.
-		\item Performance of the neural network is measured by a point system based on how many cards the NN is holding at the end of the round.
-
+		\item Each neural network will play against all other models
+		\item Performance of the neural network is measured by a point system based on the placement of the neural networks
+		
 	\end{itemize}
 	
 \end{frame}
@@ -105,17 +95,12 @@
 	
 	\begin{itemize}
 		
-		\item The models will be sorted according to their performance by amount of points.
-		\item The \verb|eaSimple| algorithm, provided by the \texttt{DEAP} python package, will handle crossover and mutation to generate a new population.
-		\item The crossover probabily was set to 0.8 (80\%), and the mutation probabily was set to 0.01 (1\%).
+		\item The models will be sorted according to their performance by amount of points
+		\item The top 50th percentile of neural networks will be allowed to reproduce with slight mutation to create two successors
 		\item The mean, lowest and highest score will be tracked over time.
 		
 	\end{itemize}
 	
-\end{frame}
-
-\begin{frame}{\texttt{eaSimple - DEAP}}
-
 \end{frame}
 
 \begin{frame}{Results}
@@ -194,7 +179,7 @@
 	\begin{itemize}
 		\item After 1000 generations, there are still no signs of learning from the neural networks
 		\item This is unlikely to be the fault of the neural network itself, given the amount of computational power involved
-		\item Results are still inconclusive due to only being able to perform experiments with up to 1k generations, as opposed to 150k as in previous models
+		\item Results are still inconclusive due to only being able to perform experiments with up to 1k generations, as opposed to 150k as in previous models \cite{big2ai}
 		\item Likely to be the fault of the genetic model itself
 	\end{itemize}
 \end{frame}
@@ -209,8 +194,8 @@
 
 \begin{frame}{Discussion}
 	\begin{itemize}
-		\item Deep neural networks may be more suitable for these kinds of games as shown with previous examples with Poker
-		\item Reinforcement learning has also been used in the past to play games of chance
+		\item Deep neural networks may be more suitable for these kinds of games as shown with previous examples with Poker \cite{pokerai}
+		\item Reinforcement learning and tree searching has also been used in the past to play games of chance \cite{big2aitree}
 		\item More work needs to be done in the field of using artificial intelligence to games of chance, especially in ways that promise less usage of computational power
 	\end{itemize}
 \end{frame}
@@ -221,6 +206,44 @@
 		\item More computational time and work is needed to conclusively decide the capabilities of genetic algorithms to train neural networks for games of chance
 		\item More work needs to be done in the field of using artificial intelligence to games of chance, especially in ways that promise less usage of computational power
 	\end{itemize}
+\end{frame}
+
+\begin{frame}{Acknowledgments}
+	\begin{itemize}
+		\item This study was fully self-funded and work was done using our own computers and facilities with no outside assistance.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{References}
+		\begin{thebibliography}{9}
+			\bibitem{chessai}
+			Silver, D. et al. A general reinforcement learning algorithm that Masters Chess, Shogi, and go through self-play. Science 362, 1140–1144 (2018). 
+			
+			\bibitem{goai}
+			Silver, D., Huang, A., Maddison, C. et al. Mastering the game of Go with deep neural networks and tree search. Nature 529, 484–489 (2016). 
+			
+			\bibitem{pokerluck}
+			Steven D. Levitt and Thomas J. Miles,
+			The Role of Skill Versus Luck in Poker Evidence From the World Series of Poker. Journal of Sports Economics 15, 31-44 (2014).
+			
+			\bibitem{pokerai}
+			Moravčík, M. et al. DeepStack: Expert-level artificial intelligence in heads-up no-limit poker. Science 356, 508–513 (2017). 
+			
+		\end{thebibliography}
+\end{frame}
+	
+\begin{frame}{References}
+	\begin{thebibliography}{9}
+		\bibitem{big2ai}
+		Charlesworth, H. Application of Self-Play Reinforcement Learning to a Four-Player Game of Imperfect Information. arXiv:1808.10442 [cs.LG]
+		
+		\bibitem{big2aitree}
+		L. -W. Chen and Y. -R. Lu, "Challenging Artificial Intelligence With Multiopponent and Multimovement Prediction for the Card Game Big2," in IEEE Access, vol. 10, pp. 40661-40676, 2022, doi: 10.1109/ACCESS.2022.3166932.
+	\end{thebibliography}
+\end{frame}
+
+\begin{frame}{Questions}
+	
 \end{frame}
 
 
