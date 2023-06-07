@@ -1,5 +1,6 @@
 \documentclass{beamer}
 \usetheme{Boadilla}
+\usepackage{pgfplots}
 
 \title{Challenging Genetic Algorithms for Artificial Intelligence with Random Multi-opponent Games}
 \author{Isa bin Mohd Faizal, Muhammad Amir Rafiq}
@@ -14,6 +15,8 @@
 \section{Conclusions}
 
 \begin{document}
+	
+\pgfplotstableread{gen3.dat}{\table}
 	
 \begin{frame}[plain]
     \maketitle
@@ -100,8 +103,64 @@
 	
 \end{frame}
 
-\begin{frame}
-	content...
+\begin{frame}{Results}
+	\begin{tikzpicture}
+		\begin{axis}[
+			xmin = 0, xmax = 1000,
+			ymin = -15, ymax = 0,
+			xtick distance= 100,
+			ytick distance= 1,
+			major grid style={lightgray},
+			minor grid style={lightgray!25},
+			width= \textwidth,
+			height = 0.75\textwidth,
+			legend cell align = {left},
+			legend pos = north west	
+		]
+		
+		\addplot table[x=Gen, y=Min] {\table};
+		\end{axis}
+	\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Results}
+	\begin{tikzpicture}
+		\begin{axis}[
+			xmin = 0, xmax = 1000,
+			ymin = -15, ymax = 0,
+			xtick distance= 100,
+			ytick distance= 1,
+			major grid style={lightgray},
+			minor grid style={lightgray!25},
+			width= \textwidth,
+			height = 0.75\textwidth,
+			legend cell align = {left},
+			legend pos = north west	
+			]
+			
+			\addplot table[x=Gen, y=Mean] {\table};
+		\end{axis}
+	\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Results}
+	\begin{tikzpicture}
+		\begin{axis}[
+			xmin = 0, xmax = 1000,
+			ymin = -13, ymax = 30,
+			xtick distance= 100,
+			ytick distance= 5,
+			major grid style={lightgray},
+			minor grid style={lightgray!25},
+			width= \textwidth,
+			height = 0.75\textwidth,
+			legend cell align = {left},
+			legend pos = north west	
+			]
+			
+			\addplot table[x=Gen, y=Max] {\table};
+		\end{axis}
+	\end{tikzpicture}
 \end{frame}
 
 \begin{frame}{Discussion}
