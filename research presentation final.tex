@@ -16,7 +16,8 @@
 \section{Results}
 \section{Discussion}
 \section{Conclusions}
-
+\section{Acknowledgments}
+\section{References}
 \begin{document}
 	
 \pgfplotstableread{gen3.dat}{\table}
@@ -35,11 +36,23 @@
 	
 	\begin{itemize}
 		\item  Artificial intelligence can beat even the best human players in various video games.
-		\item Stockfish and AlphaGo
+		\item Stockfish and AlphaGo \cite{chessai} \cite{goai}
 		\item However, most of these games are fully deterministic.
-		\item There is only one possible starting point, which sets a base for neural networks and AI to iterate upon.
+		
 	\end{itemize}
-	What would happen if an AI needed to learn from starting a random gamestate? Will this affect its performance?
+	
+	
+\end{frame}
+
+\begin{frame}{Introduction}
+	
+	\begin{itemize}
+		\item  There are games with large amounts of randomness, but are reliant on skill.
+		\item Big2, Poker (most varieties)
+		\item Big2 is a card game popular in East Asia with high elements of chance as well as varying game states. \cite{big2aitree}
+		
+	\end{itemize}
+	
 	
 \end{frame}
 
@@ -63,19 +76,20 @@
 		\item Improve on past models of artificial intelligence using elements of randomness
 		\item Incorporating elements of randomness into the model itself to prevent premature plateauing of performance
 		\item Games of luck are particularly prone to problems of plateauing performance due to lower correlation between skill and winning
-
+		
 	\end{itemize}
 	
 \end{frame}
+
 
 \begin{frame}{Methodology}
 	
 	\begin{itemize}
 	
 		\item Sets of 100 neural networks are generated randomly
-		\item Each neural network will play against other models in its generation.
-		\item Performance of the neural network is measured by a point system based on how many cards the NN is holding at the end of the round.
-
+		\item Each neural network will play against all other models
+		\item Performance of the neural network is measured by a point system based on the placement of the neural networks
+		
 	\end{itemize}
 	
 \end{frame}
@@ -131,6 +145,7 @@
 		]
 		
 		\addplot table[x=Gen, y=Min] {\table};
+		\legend{Minimum score}
 		\end{axis}
 	\end{tikzpicture}
 \end{frame}
@@ -151,6 +166,7 @@
 			]
 			
 			\addplot table[x=Gen, y=Mean] {\table};
+			\legend{Mean score}
 		\end{axis}
 	\end{tikzpicture}
 \end{frame}
@@ -171,16 +187,80 @@
 			]
 			
 			\addplot table[x=Gen, y=Max] {\table};
+			\legend{Max score}		
 		\end{axis}
 	\end{tikzpicture}
+\end{frame}	
+
+\begin{frame}{Discussion}
+	\begin{itemize}
+		\item After 1000 generations, there are still no signs of learning from the neural networks
+		\item This is unlikely to be the fault of the neural network itself, given the amount of computational power involved
+		\item Results are still inconclusive due to only being able to perform experiments with up to 1k generations, as opposed to 150k as in previous models \cite{big2ai}
+		\item Likely to be the fault of the genetic model itself
+	\end{itemize}
 \end{frame}
 
 \begin{frame}{Discussion}
-	
+	\begin{itemize}
+		\item Because of the randomised nature of generation, as well as the lack of obvious continuity between generations, genetic algorithms may not be suitable for randomised games.
+		\item Genetic algorithms are generally unable to create neural networks that can "reason" with an if-then logic, not especially to the level for a game as complex as Big2
+		\item Does not bode well for future uses of genetic algorithms for more complex games such as Texas Hold'em Poker
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Discussion}
+	\begin{itemize}
+		\item Deep neural networks may be more suitable for these kinds of games as shown with previous examples with Poker \cite{pokerai}
+		\item Reinforcement learning and tree searching has also been used in the past to play games of chance \cite{big2aitree}
+		\item More work needs to be done in the field of using artificial intelligence to games of chance, especially in ways that promise less usage of computational power
+	\end{itemize}
 \end{frame}
 
 \begin{frame}{Conclusion}
+	\begin{itemize}
+		\item Genetic algorithms may not be suitable for training artificial intelligence to play games of chance
+		\item More computational time and work is needed to conclusively decide the capabilities of genetic algorithms to train neural networks for games of chance
+		\item More work needs to be done in the field of using artificial intelligence to games of chance, especially in ways that promise less usage of computational power
+	\end{itemize}
+\end{frame}
 
+\begin{frame}{Acknowledgments}
+	\begin{itemize}
+		\item This study was fully self-funded and work was done using our own computers and facilities with no outside assistance.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{References}
+		\begin{thebibliography}{9}
+			\bibitem{chessai}
+			Silver, D. et al. A general reinforcement learning algorithm that Masters Chess, Shogi, and go through self-play. Science 362, 1140–1144 (2018). 
+			
+			\bibitem{goai}
+			Silver, D., Huang, A., Maddison, C. et al. Mastering the game of Go with deep neural networks and tree search. Nature 529, 484–489 (2016). 
+			
+			\bibitem{pokerluck}
+			Steven D. Levitt and Thomas J. Miles,
+			The Role of Skill Versus Luck in Poker Evidence From the World Series of Poker. Journal of Sports Economics 15, 31-44 (2014).
+			
+			\bibitem{pokerai}
+			Moravčík, M. et al. DeepStack: Expert-level artificial intelligence in heads-up no-limit poker. Science 356, 508–513 (2017). 
+			
+		\end{thebibliography}
+\end{frame}
+	
+\begin{frame}{References}
+	\begin{thebibliography}{9}
+		\bibitem{big2ai}
+		Charlesworth, H. Application of Self-Play Reinforcement Learning to a Four-Player Game of Imperfect Information. arXiv:1808.10442 [cs.LG]
+		
+		\bibitem{big2aitree}
+		L. -W. Chen and Y. -R. Lu, "Challenging Artificial Intelligence With Multiopponent and Multimovement Prediction for the Card Game Big2," in IEEE Access, vol. 10, pp. 40661-40676, 2022, doi: 10.1109/ACCESS.2022.3166932.
+	\end{thebibliography}
+\end{frame}
+
+\begin{frame}{Questions}
+	
 \end{frame}
 
 
