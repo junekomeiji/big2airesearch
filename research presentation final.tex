@@ -1,0 +1,135 @@
+\documentclass{beamer}
+\usetheme{Boadilla}
+
+\title{Challenging Genetic Algorithms for Artificial Intelligence with Random Multi-opponent Games}
+\author{Isa bin Mohd Faizal, Muhammad Amir Rafiq}
+\institute{Universiti Kebangsaan Malaysia}
+
+\section{Introduction}
+\section{Problem Statement}
+\section{Objective}
+\section{Methodology}
+\section{Results}
+\section{Discussion}
+\section{Conclusions}
+
+\begin{document}
+	
+\begin{frame}[plain]
+    \maketitle
+\end{frame}
+
+\begin{frame}{Outline}
+
+	\tableofcontents
+	
+\end{frame}
+
+\begin{frame}{Introduction}
+	
+	\begin{itemize}
+		\item  Artificial intelligence can beat even the best human players in various video games.
+		\item Stockfish and AlphaGo
+		\item However, most of these games are fully deterministic.
+		
+	\end{itemize}
+	
+	
+\end{frame}
+
+\begin{frame}{Introduction}
+	
+	\begin{itemize}
+		\item  There are games with large amounts of randomness, but are reliant on skill.
+		\item Big2, Poker (most varieties)
+		\item Big2 is a card game popular in East Asia with high elements of chance as well as varying game states. 
+		
+	\end{itemize}
+	
+	
+\end{frame}
+
+\begin{frame}{Problem Statement}
+
+	\begin{itemize}
+		
+		\item How well will a genetic model perform in multi-opponent games of random chance?
+		\item How long will it take until it reaches a performance plateau?
+		\item How fast will it improve over time during training?
+		
+		
+	\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Objective}
+	
+	\begin{itemize}
+		
+		\item Improve on past models of artificial intelligence using elements of randomness
+		\item Incorporating elements of randomness into the model itself to prevent premature plateauing of performance
+		\item Games of luck are particularly prone to problems of plateauing performance due to lower correlation between skill and winning
+		
+	\end{itemize}
+	
+\end{frame}
+
+\begin{frame}{Objective}
+	
+	\begin{itemize}
+		
+		\item Improve on past models of artificial intelligence using elements of randomness
+		\item Incorporating elements of randomness into the model itself to prevent premature plateauing of performance
+		\item Games of luck are particularly prone to problems of plateauing performance due to lower correlation between skill and winning
+		
+	\end{itemize}
+	
+\end{frame}
+
+\begin{frame}{Methodology}
+	
+	\begin{itemize}
+	
+		\item Sets of 100 neural networks are generated randomly
+		\item Each neural network will play against all other models
+		\item Performance of the neural network is measured by a point system based on the placement of the neural networks
+		
+	\end{itemize}
+	
+\end{frame}
+
+\begin{frame}{Methodology}
+	
+	\begin{itemize}
+		
+		\item The models will be sorted according to their performance by amount of points
+		\item The top 50th percentile of neural networks will be allowed to reproduce with slight mutation to create two successors
+		\item The mean, lowest and highest score will be tracked over time.
+		
+	\end{itemize}
+	
+\end{frame}
+
+\begin{frame}{Results}
+	
+	\begin{itemize}
+		\item We tested 1000 generations of neural networks playing Big2, taking about 20 hours of computer time on a home computer.
+		\item The results are as follows according to these graphs:
+	\end{itemize}
+	
+\end{frame}
+
+\begin{frame}
+	content...
+\end{frame}
+
+\begin{frame}{Discussion}
+	
+\end{frame}
+
+\begin{frame}{Conclusion}
+
+\end{frame}
+
+
+\end{document}
