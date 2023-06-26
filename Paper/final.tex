@@ -2,7 +2,8 @@
 
 
 % ABSTRACT
-
+% Description of experiment
+% Results and conclusions
 
 % INTRO
 % - mostly copied from proposal
@@ -14,7 +15,15 @@
 % - Explain the model
 %  = Input/Output
 %  = Layers (we can use http://alexlenail.me/NN-SVG/LeNet.html for the diagram)
+
+% Input layer, 105 nodes
+% Two Dense layers, 140 nodes, rectified linear unit activation.
+% Output layer, 10 nodes, sigmoid activation function.
+
 %  = Initial generation/weights
+
+% Inital weights for every node were randomly generated using Python's built-in random.random() function.
+
 % - Fitness calculation
 %  = Grouping
 %  = Playing the game
@@ -53,3 +62,5 @@
 % BIBLIOGRAPHY
 % Lets hit the GYM - https://kushalmukherjee.medium.com/lets-hit-the-gym-combining-neural-network-keras-with-genetic-algorithm-deap-371e962473c8 (ai code scaffolded from here)
 % Big11 - https://github.com/kwccoin/big2-1/blob/master/Big11.py (big2 code taken from here)
+% DEAP 1.3.3 Documentation - https://deap.readthedocs.io/en/master/index.html (GA section of the code taken here)
+% 
