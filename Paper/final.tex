@@ -14,6 +14,11 @@
 % METHODOLOGY
 % - Explain the model
 %  = Input/Output
+
+% The model takes in a 107-dimension vector, with each element representing a card state. A card state is a two-dimensional vector, where the first element is the card's face, 1-13, and the second element is the card's suit, 1-4. [0, 0] is used to represent an empty card state. (exlpanation why card vectors are like this?) The first 13 elements of the input vector represent the available cards to the player, the next 52 elements represent cards that have already been played, and the final 5 elements represent the current hand.
+
+% The model outputs a 13-dimensional vector, with each element being a number between 0 and 1. Each element represents whether to play the corresponding card in its inventory. Numbers above or equal to >=0.5 are treated as a played card (better language?). If the model decides to play more than 5 cards, then only the first 5 selections will be used. If the model plays a card that it doesn't have, then it is ignored.
+
 %  = Layers (we can use http://alexlenail.me/NN-SVG/LeNet.html for the diagram)
 
 % Input layer, 105 nodes
@@ -22,12 +27,21 @@
 
 %  = Initial generation/weights
 
-% Inital weights for every node were randomly generated using Python's built-in random.random() function.
+% Inital weights for every node were randomly generated using Python's base random.random() function. These randomly generated weights make up the 100 individuals in the initial population.
 
 % - Fitness calculation
 %  = Grouping
+
+% The individuals are seperated into 4 groups of 25. The groups are seperated sequentially, meaning that the first 25 individuals in the population are in group 1, the second 25 individuals are in group 2, and so on. Each nth member of each group play against eachother in one game of Big Two. 
+
 %  = Playing the game
+
+% The game of Big Two is played normally. When prompted, the required information (see above) is compiled into an input vector and passed to the model to make a prediction. The resulting output vector is then processed into a hand. If the hand is invalid for any reason, then the model will have to make another prediction. The model can output a maximum of 5 invalid hands before being forced to skip. The game may exit prematurely if 12 consecutive skips happen.
+
 %  = Actual fitness formula
+
+% Fitness for each model is calculated at the end of the game. If the game is won normally, the winner is given a posistive fitness equal to the sum number of remaining cards of the losers. The losers are given a negative fitness equal to the number of cards in their inventory remaining. If the game exits prematurely, every player is given a negative fitness, same as if they had lost.
+
 % - Mutation method
 %  = Explain varAnd()
 %  = (just so you know, we are using tools.cxTwoPoint as mating, and tools.mutFlipBit as mutation)
